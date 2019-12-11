@@ -1,14 +1,77 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Ionic Blank
+      Dice Roll Simulator
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <ion-label position="fixed">Die</ion-label>
+      <ion-select  [(ngModel)]="die" placeholder="Select a die">
+        <ion-select-option *ngFor="let d of dice; let i = index" [value]="d.val">
+          {{ d.label }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Total Dice</ion-label>
+      <ion-input type="number" [(ngModel)]="total_dice" select-all></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Success On</ion-label>
+      <ion-input type="number" [(ngModel)]="success_on"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Modifier</ion-label>
+      <ion-input type="number" [(ngModel)]="modifier"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="fixed">Simulations</ion-label>
+      <ion-input type="number" [(ngModel)]="simulations"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button color="primary" expand="full" (click)="runSimulation()">
+          <ion-icon name="return-right"></ion-icon>
+          Run Simulation
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button color="medium" expand="full" (click)="reset()">
+          <ion-icon name="undo"></ion-icon>
+          Reset
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="results">
+    <ion-label>Successes</ion-label>
+    <ion-text>
+      {{ (success_count / simulations * 100).toFixed(2) }}%
+    </ion-text>
+    <ion-progress-bar color="success" [value]="success"></ion-progress-bar>
+  </div>
+
+  <div class="results">
+    <ion-label>Failures</ion-label>
+    <ion-text>
+      {{ (failure_count / simulations * 100).toFixed(2) }}%
+    </ion-text>
+    <ion-progress-bar color="danger" [value]="failure"></ion-progress-bar>
   </div>
 </ion-content>
+
+<ion-footer class="ion-padding">
+  <p class="ion-text-center">&copy; {{ year }} Bunch o' Eyebrows</p>
+</ion-footer>
